@@ -1,0 +1,77 @@
+<!-- src/index.html -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="application-name" content="leanix-custom-report-tutorial-06">
+  <meta name="description" content="Creating a Business Model Canvas and export it into PowerPoint">
+  <meta name="author" content="LeanIX GmbH">
+  <title>Creating a Business Model Canvas and export it into PowerPoint</title>
+  <style>
+    [x-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+<body x-data="initializeContext()" x-init="initializeReport()">
+  <div x-cloak class="container mx-auto h-screen flex flex-col p-8">
+
+    <!-- the Action Bar container -->
+    <div class="mb-4 flex justify-end gap-1">
+
+      <!-- the "Load" button -->
+      <label>
+        <span class="cursor-pointer inline-flex items-center px-2 py-1 border border-transparent text-xs leading-4 font-semibold tracking-wide rounded text-white bg-red-600 hover:bg-red-500 transition ease-in-out duration-150">
+          Load
+        </span>
+        <input @change="onFileChange" type="file" class="hidden" accept=".json">
+      </label>
+
+      <!-- the "Save" button -->
+      <span class="inline-flex rounded-md shadow-sm">
+        <button @click="saveFile" type="button"
+        class="inline-flex items-center px-2 py-1 border border-transparent text-xs leading-4 font-semibold tracking-wide rounded text-white bg-green-600 hover:bg-green-500 transition ease-in-out duration-150">
+          Save
+        </button>
+      </span>
+
+      <!-- the "Export to PPT" button -->
+      <span class="inline-flex rounded-md shadow-sm">
+        <button @click="exportToPPT" type="button"
+          class="inline-flex items-center px-2 py-1 border border-transparent text-xs leading-4 font-semibold tracking-wide rounded text-white bg-indigo-600 hover:bg-indigo-500 transition ease-in-out duration-150">
+          Export to PPT
+        </button>
+      </span>
+
+    </div>
+
+    <!-- the Business Model Canvas container -->
+    <div
+      class="grid h-full border-t border-r rounded border-gray-400 text-gray-800 text-sm font-semibold"
+      x-ref="container">
+      <!-- recursive template for the grid fields -->
+      <template x-for="field in fields" :key="field.key">
+        <!-- the field container -->
+        <div
+          :field="field.key"
+          :class="field.classes"
+          class="border-l border-b border-gray-400 p-2 flex flex-col">
+          <!-- the field label -->
+          <div
+            field-label
+            class="px-1 text-base mb-1 text-gray-700 truncate"
+            x-text="field.label">
+          </div>
+          <!-- the field input textarea, editable by the user -->
+          <textarea
+            field-content
+            x-model="document[field.key]"
+            class="text-sm tracking-wide bg-gray-100 hover:bg-gray-200 focus:bg-gray-200 transition-color duration-250 w-full flex-1 border border-dotted rounded p-2">
+          </textarea>
+        </div>
+      </template>
+    </div>
+  </div>
+</body>
+</html>
